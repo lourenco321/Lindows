@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#Functions:
+
+diskpart () {
+
+}
+
+baseinst () {
+
+}
+
+custominst () {
+pacman -S r
+}
+
+user () {
+
+}
+
+config () {
+
+}
+
+#Instaler
+
+echo "Welcome to the Lindows Install System"
+
+
