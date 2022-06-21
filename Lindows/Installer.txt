@@ -11,7 +11,7 @@ baseinst () {
 }
 
 custominst () {
-pacman -S r
+pacstrap /mnt pack
 }
 
 user () {
