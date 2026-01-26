@@ -14,25 +14,15 @@ echo Please make sure to disable Windows Defender before proceding.
 echo WARNING: AFTER THIS STAGE THE INSTALL WILL RUN WITHOUT ANY OPTION OF STOPING.
 pause
 cls
-
-echo Checking Windows Defender security state...
+echo Checking Windows Defender real-time protection...
 powershell -NoProfile -Command ^
-"$s = Get-MpComputerStatus; ^
-if ( ^
- $s.RealTimeProtectionEnabled -or ^
- $s.BehaviorMonitorEnabled -or ^
- $s.OnAccessProtectionEnabled -or ^
- $s.CloudProtectionEnabled -or ^
- $s.IsTamperProtected ^
-) { exit 1 } else { exit 0 }"
+"if ((Get-MpComputerStatus).RealTimeProtectionEnabled) { exit 1 } else { exit 0 }"
 if %errorlevel% neq 0 (
     echo.
-    echo [BLOCKED] Windows Defender protection is still ACTIVE.
+    echo [BLOCKED] Windows Defender real-time protection is ENABLED.
     echo.
-    echo Please disable the following manually:
+    echo Please disable:
     echo  - Real-time protection
-    echo  - Cloud-delivered protection
-    echo  - Automatic sample submission
     echo  - Tamper Protection
     echo.
     echo Windows Security > Virus and threat protection > Manage settings
@@ -40,7 +30,10 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-echo Windows Defender protections are fully disabled. Continuing...
+echo Windows Defender real-time protection is OFF. Continuing...
+echo WARNING! Even if real-time protection is turned off other components of Windows Defender might still tamper with the install.
+echo Please make sure to disable everything!
+
 
 
 
@@ -100,5 +93,6 @@ del "%ZIP_FILE%"
 echo Self Termination...
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 exit
+
 
 
