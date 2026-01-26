@@ -58,7 +58,11 @@ powershell -Command "Expand-Archive -Path '%ZIP_FILE%' -DestinationPath '%WORK_D
 
 REM === RUN ===
 echo Launching Talon...
-start "" "%WORK_DIR%\%EXE_NAME%" --headless
+start /wait "" "%WORK_DIR%\%EXE_NAME%" --headless
+echo Talon finished!
+
+echo Sending you over to Package Manager!
+start "" "%POST_BAT%"
 
 echo Cleaning up....
 echo Deleting temporary files...
@@ -66,5 +70,6 @@ del "%ZIP_FILE%"
 echo Self Termination...
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 exit
+
 
 
