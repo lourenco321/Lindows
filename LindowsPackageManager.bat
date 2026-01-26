@@ -25,6 +25,9 @@ winget install 7zip.7zip --accept-source-agreements --accept-package-agreements
 echo Installing Git...
 winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements
 
+echo Installing Superium...
+winget install Superium.Superium --accept-source-agreements --accept-package-agreements
+
 echo Installing mpv...
 winget install mpv.net --accept-source-agreements --accept-package-agreements
 :: -------------------------------------------MPV VALUES-----------------------------------------
@@ -91,9 +94,6 @@ powershell -Command ^
   "Invoke-WebRequest '%WALLPAPER_URL%' -OutFile '%WALLPAPER_FILE%'; ^
    Add-Type -TypeDefinition 'using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", SetLastError=true)] public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; ^
    [Wallpaper]::SystemParametersInfo(20, 0, '%WALLPAPER_FILE%', 3)"
-
-
-
 
 echo.
 echo.
