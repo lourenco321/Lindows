@@ -1,12 +1,5 @@
 @echo off
 cls
-echo Welcome to Lindows Instaler!
-echo.
-echo Please make sure to disable Windows Defender before proceding.
-echo WARNING: AFTER THIS STAGE THE INSTALL WILL RUN WITHOUT ANY OPTION OF STOPING.
-pause
-cls
-echo Starting Lindows Install
 :: === Admin check ===
 net session >nul 2>&1
 if %errorlevel% neq 0 (
@@ -15,6 +8,33 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
+echo Welcome to Lindows Instaler!
+echo.
+echo Please make sure to disable Windows Defender before proceding.
+echo WARNING: AFTER THIS STAGE THE INSTALL WILL RUN WITHOUT ANY OPTION OF STOPING.
+pause
+cls
+echo Checking Windows Defender status...
+powershell -Command ^
+"if ((Get-MpComputerStatus).RealTimeProtectionEnabled) { exit 1 } else { exit 0 }"
+
+if %errorlevel% neq 0 (
+    echo.
+    echo [WARNING] Windows Defender real-time protection is ENABLED.
+    echo Talon or post-install steps may be blocked.
+    echo Please disable Defender temporarily and re-run this installer.
+    echo.
+    pause
+    exit /b 1
+)
+echo Windows Defender is disabled. Continuing...
+
+
+
+
+
+
+echo Starting Lindows Install
 echo Downloading post-install script...
 
 set "INSTALL_DIR=%ProgramData%\Lindows"
@@ -70,6 +90,3 @@ del "%ZIP_FILE%"
 echo Self Termination...
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 exit
-
-
-
