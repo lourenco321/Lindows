@@ -58,7 +58,7 @@ echo.
 echo Starting setup for debloat...
 setlocal
 REM === CONFIG ===
-set "ZIP_URL=https://example.com/Talon.zip"
+set "ZIP_URL=https://code.ravendevteam.org/talon/Talon.zip"
 set "WORK_DIR=%LOCALAPPDATA%\Talon"
 set "ZIP_FILE=%TEMP%\Talon.zip"
 set "EXE_NAME=Talon.exe"
@@ -83,3 +83,4 @@ del "%ZIP_FILE%"
 echo Self Termination...
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 exit
+
