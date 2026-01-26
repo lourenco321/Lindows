@@ -57,7 +57,7 @@ echo Installing Steam...
 winget install Valve.Steam --source winget --accept-source-agreements --accept-package-agreements
 
 echo Installing Spotify...
-winget install --id Spotify.Spotify -e --source winget --accept-source-agreements --accept-package-agreements
+winget install Spotify.Spotify --source winget --scope user --accept-source-agreements --accept-package-agreements || echo Spotify install skipped
 
 echo Installing BurntSushi...
 echo Getting DLLs...
@@ -107,4 +107,5 @@ pause
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 timeout /t 3 /nobreak >nul
 shutdown /r /t 0
+
 
