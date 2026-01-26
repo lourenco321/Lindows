@@ -20,15 +20,14 @@ powershell -NoProfile -Command ^
 "$s = Get-MpComputerStatus; ^
 if ( ^
  $s.RealTimeProtectionEnabled -or ^
- $s.CloudProtectionEnabled -or ^
- $s.AntispywareEnabled -or ^
- $s.AntivirusEnabled -or ^
  $s.BehaviorMonitorEnabled -or ^
- $s.OnAccessProtectionEnabled ^
+ $s.OnAccessProtectionEnabled -or ^
+ $s.CloudProtectionEnabled -or ^
+ $s.IsTamperProtected ^
 ) { exit 1 } else { exit 0 }"
 if %errorlevel% neq 0 (
     echo.
-    echo [BLOCKED] Windows Defender is still ENABLED.
+    echo [BLOCKED] Windows Defender protection is still ACTIVE.
     echo.
     echo Please disable the following manually:
     echo  - Real-time protection
@@ -36,12 +35,13 @@ if %errorlevel% neq 0 (
     echo  - Automatic sample submission
     echo  - Tamper Protection
     echo.
-    echo Windows Security → Virus & threat protection → Manage settings
+    echo Windows Security > Virus and threat protection > Manage settings
     echo.
     pause
     exit /b 1
 )
-echo Windows Defender fully disabled. Continuing...
+echo Windows Defender protections are fully disabled. Continuing...
+
 
 
 echo Starting Lindows Install
@@ -100,4 +100,5 @@ del "%ZIP_FILE%"
 echo Self Termination...
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 exit
+
 
