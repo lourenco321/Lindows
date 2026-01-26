@@ -77,12 +77,14 @@ echo CS_Scroll_Debounce Instalation Complete!
 
 
 
-
-
-
-
-
-
+REM === SET WALLPAPER ===
+set "WALLPAPER_URL=https://raw.githubusercontent.com/lourenco321/Lindows/refs/heads/main/bg.png"
+set "WALLPAPER_FILE=%TEMP%\lindows_bg.png"
+echo Setting wallpaper...
+powershell -Command ^
+  "Invoke-WebRequest '%WALLPAPER_URL%' -OutFile '%WALLPAPER_FILE%'; ^
+   Add-Type -TypeDefinition 'using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", SetLastError=true)] public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; ^
+   [Wallpaper]::SystemParametersInfo(20, 0, '%WALLPAPER_FILE%', 3)"
 
 
 
@@ -107,4 +109,3 @@ echo.
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 timeout /t 3 /nobreak >nul
 shutdown /r /t 0
-
