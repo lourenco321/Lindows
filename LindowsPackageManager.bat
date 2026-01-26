@@ -71,3 +71,41 @@ powershell -NoProfile -Command ^
 echo CS_Scroll_Debounce Instalation Complete!
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+echo.
+echo.
+echo.
+echo.
+echo Lindows Setup Finished!
+echo =========================================
+echo  The system will now restart
+echo  Thanks for using Lindows :)
+echo =========================================
+echo.
+start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
+timeout /t 3 /nobreak >nul
+shutdown /r /t 0
