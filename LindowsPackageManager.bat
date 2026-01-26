@@ -14,12 +14,8 @@ echo Installing Spotify...
 winget install Spotify.Spotify --source winget --scope user --accept-source-agreements --accept-package-agreements || echo Spotify install skipped
 
 echo.
-echo Adding MPV to PATH...
-powershell -Command "New-Item -Path 'HKCU:\Software\Classes\mpv.net\shell\open\command' -Value '\"$env:LOCALAPPDATA\Programs\mpv.net\mpvnet.exe\" \"%1\"' -Force"
-
 echo Setting default media associations to mpv...
-powershell -ExecutionPolicy Bypass -NoProfile -Command "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/DanysysTeam/PS-SFTA/master/SFTA.ps1')); $exts = '.mp4','.mkv','.avi','.mov','.wmv','.flv','.webm','.m4v','.ts','.mts','.m2ts','.mp3','.flac','.wav','.aac','.ogg','.opus','.wma','.m4a'; foreach ($ext in $exts) { Set-FTA 'mpv.net' $ext } }"
-
+powershell -ExecutionPolicy Bypass -NoProfile -Command "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/DanysysTeam/PS-SFTA/master/SFTA.ps1')); $mpvPath = \"$env:LOCALAPPDATA\Programs\mpv.net\mpvnet.exe\"; $exts = '.mp4','.mkv','.avi','.mov','.wmv','.flv','.webm','.m4v','.ts','.mts','.m2ts','.mp3','.flac','.wav','.aac','.ogg','.opus','.wma','.m4a'; foreach ($ext in $exts) { Register-FTA -ProgramPath $mpvPath -Extension $ext } }"
 
 echo.
 echo Lindows Setup Finished!
@@ -32,6 +28,7 @@ echo.
 :: Self-destruct and exit
 start "" cmd /c "timeout /t 5 >nul & del \"%~f0\""
 pause
+
 
 
 
