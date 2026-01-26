@@ -1,5 +1,11 @@
 @echo off
 cls
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
+)
+
 echo Welcome back to Lindows Installer
 echo.
 echo We are almost done getting your system ready.
@@ -89,13 +95,6 @@ powershell -Command ^
 
 
 
-
-
-
-
-
-
-
 echo.
 echo.
 echo.
@@ -106,6 +105,7 @@ echo  The system will now restart
 echo  Thanks for using Lindows :)
 echo =========================================
 echo.
+pause
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 timeout /t 3 /nobreak >nul
 shutdown /r /t 0
