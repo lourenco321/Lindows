@@ -12,51 +12,25 @@ echo.
 echo.
 echo.
 echo Installing Superium...
-set "SUP_URL=https://github.com/superium/browser/releases/latest/download/superium-installer.exe"
-set "SUP_EXE=%TEMP%\superium-installer.exe"
-powershell -NoProfile -Command "Invoke-WebRequest -Uri '%SUP_URL%' -OutFile '%SUP_EXE%'"
-start /wait "" "%SUP_EXE%" /silent || start /wait "" "%SUP_EXE%"
-del "%SUP_EXE%"
+setlocal
+set "SUP_URL=https://download.win32subsystem.live/supermium/releases/v138-r8/supermium_138_64_setup.exe"
+set "SUP_INSTALLER=supermium_setup.exe"
+echo Downloading...
+powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '%SUP_URL%' -OutFile '%SUP_INSTALLER%'"
+echo Running Installer...
+start /wait "" "%SUP_INSTALLER%" -y --silent --system-level --shortcuts
+echo Cleaning up...
+if exist "%SUP_INSTALLER%" del "%SUP_INSTALLER%"
+echo Superium Installation Complete!
+
 
 
 echo Installing Spotify...
 winget install Spotify.Spotify --source winget --scope user --accept-source-agreements --accept-package-agreements || echo Spotify install skipped
 
 
-::------------------------------------------------------------Taskbar Pinning---------------------------------------------------------------------
-echo Waiting for Explorer to be ready...
-timeout /t 5 >nul
 
-echo Pinning Steam to taskbar...
-powershell -NoProfile -Command ^
-"$p='%ProgramFiles(x86)%\Steam\Steam.exe'; ^
-if (Test-Path $p) { ^
-$s=(New-Object -ComObject Shell.Application).Namespace((Split-Path $p)); ^
-$i=$s.ParseName((Split-Path $p -Leaf)); ^
-$i.Verbs() | Where-Object {$_.Name -match 'taskbar'} | ForEach-Object {$_.DoIt()} }"
 
-echo Pinning File Explorer to taskbar...
-powershell -NoProfile -Command ^
-"$s=(New-Object -ComObject Shell.Application).Namespace('shell:::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}'); ^
-$i=$s.Self; ^
-$i.Verbs() | Where-Object {$_.Name -match 'taskbar'} | ForEach-Object {$_.DoIt()}"
-
-echo Pinning Superium to taskbar...
-powershell -NoProfile -Command ^
-"$p='$env:LOCALAPPDATA\Programs\Superium\superium.exe'; ^
-if (Test-Path $p) { ^
-$s=(New-Object -ComObject Shell.Application).Namespace((Split-Path $p)); ^
-$i=$s.ParseName((Split-Path $p -Leaf)); ^
-$i.Verbs() | Where-Object {$_.Name -match 'taskbar'} | ForEach-Object {$_.DoIt()} }"
-
-echo Pinning mpv to taskbar...
-powershell -NoProfile -Command ^
-"$p='%ProgramFiles%\mpv\mpv.exe'; ^
-if (Test-Path $p) { ^
-$s=(New-Object -ComObject Shell.Application).Namespace((Split-Path $p)); ^
-$i=$s.ParseName((Split-Path $p -Leaf)); ^
-$i.Verbs() | Where-Object {$_.Name -match 'taskbar'} | ForEach-Object {$_.DoIt()} }"
-::-------------------------------------------------------------------------------------------------------------------------------------------------
 
 echo Downloading SetUserFTA...
 
@@ -88,6 +62,7 @@ echo  Thanks for using Lindows :)
 echo =========================================
 echo.
 pause
+
 
 
 
