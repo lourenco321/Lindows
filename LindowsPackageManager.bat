@@ -17,6 +17,8 @@ winget install Superium.Superium --source winget --accept-source-agreements --ac
 echo Installing Spotify...
 winget install Spotify.Spotify --source winget --scope user --accept-source-agreements --accept-package-agreements || echo Spotify install skipped
 
+echo Cleaning up...
+start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 echo.
 echo.
 echo.
@@ -28,9 +30,7 @@ echo  Thanks for using Lindows :)
 echo =========================================
 echo.
 pause
-start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
-timeout /t 3 /nobreak >nul
-shutdown /r /t 0
+
 
 
 
