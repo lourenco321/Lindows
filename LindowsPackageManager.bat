@@ -17,19 +17,20 @@ echo.
 echo.
 echo.
 echo Fixing Winget...
-powershell -Command "Get-AppxPackage -AllUsers Microsoft.DesktopAppInstaller | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register `$($_.InstallLocation)\AppXManifest.xml`}"
+powershell -NoProfile -Command ^
+"Get-AppxPackage -AllUsers Microsoft.DesktopAppInstaller ^| ForEach-Object { Add-AppxPackage -DisableDevelopmentMode -Register ($_.InstallLocation + '\AppXManifest.xml') }"
 
 echo Installing 7zip...
-winget install 7zip.7zip --accept-source-agreements --accept-package-agreements
+winget install 7zip.7zip --source winget --accept-source-agreements --accept-package-agreements
 
 echo Installing Git...
-winget install --id Git.Git -e --accept-source-agreements --accept-package-agreements
+winget install --id Git.Git -e --source winget --accept-source-agreements --accept-package-agreements
 
 echo Installing Superium...
-winget install Superium.Superium --accept-source-agreements --accept-package-agreements
+winget install Superium.Superium --source winget --accept-source-agreements --accept-package-agreements
 
 echo Installing mpv...
-winget install mpv.net --accept-source-agreements --accept-package-agreements
+winget install mpv.net --source winget --accept-source-agreements --accept-package-agreements
 :: -------------------------------------------MPV VALUES-----------------------------------------
 set "MPV_DIR=%APPDATA%\mpv"
 set "A4K_URL=https://github.com/Tama47/Anime4K/releases/download/v4.0.1/GLSL_Windows_High-end.zip"
@@ -50,17 +51,17 @@ del "%TMP_A4K%"
 echo MPV Instalation Complete!
 
 echo Installing OpenRGB...
-winget install OpenRGB.OpenRGB --accept-source-agreements --accept-package-agreements
+winget install OpenRGB.OpenRGB --source winget --accept-source-agreements --accept-package-agreements
 
 echo Installing Steam...
-winget install Valve.Steam --accept-source-agreements --accept-package-agreements
+winget install Valve.Steam --source winget --accept-source-agreements --accept-package-agreements
 
 echo Installing Spotify...
-winget install --id Spotify.Spotify -e --accept-source-agreements --accept-package-agreements
+winget install --id Spotify.Spotify -e --source winget --accept-source-agreements --accept-package-agreements
 
 echo Installing BurntSushi...
 echo Getting DLLs...
-winget install --id Microsoft.VCRedist.2015+.x64 -e
+winget install --id Microsoft.VCRedist.2015+.x64 -e --source winget
 :: -------------------------------------------BurntSushi VALUES----------------------------------
 set "BS_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup"
 set "BS_URL=https://github.com/OpenByteDev/burnt-sushi/releases/download/0.3.2/BurntSushi.exe"
@@ -90,10 +91,7 @@ REM === SET WALLPAPER ===
 set "WALLPAPER_URL=https://raw.githubusercontent.com/lourenco321/Lindows/refs/heads/main/bg.png"
 set "WALLPAPER_FILE=%TEMP%\lindows_bg.png"
 echo Setting wallpaper...
-powershell -Command ^
-  "Invoke-WebRequest '%WALLPAPER_URL%' -OutFile '%WALLPAPER_FILE%'; ^
-   Add-Type -TypeDefinition 'using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", SetLastError=true)] public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; ^
-   [Wallpaper]::SystemParametersInfo(20, 0, '%WALLPAPER_FILE%', 3)"
+powershell -NoProfile -Command "Invoke-WebRequest '%WALLPAPER_URL%' -OutFile '%WALLPAPER_FILE%'; Add-Type -TypeDefinition 'using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", SetLastError=true)] public static extern bool SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; [Wallpaper]::SystemParametersInfo(20, 0, '%WALLPAPER_FILE%', 3)"
 
 echo.
 echo.
@@ -109,3 +107,4 @@ pause
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 timeout /t 3 /nobreak >nul
 shutdown /r /t 0
+
