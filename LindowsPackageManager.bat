@@ -16,10 +16,10 @@ winget install Spotify.Spotify --source winget --scope user --accept-source-agre
 echo.
 echo Downloading SetUserFTA...
 set "FTA_EXE=%TEMP%\SetUserFTA.exe"
-set "FTA_URL=https://community.chocolatey.org/api/v2/package/setuserfta/1.7.1.20190427"
+set "FTA_URL=https://raw.githubusercontent.com/qis/windows/master/setup/SetUserFTA/SetUserFTA.exe"
 
 echo Downloading SetUserFTA mirror...
-powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $web = New-Object System.Net.WebClient; $web.DownloadFile('%FTA_URL%', '%TEMP%\fta.zip'); Expand-Archive -Path '%TEMP%\fta.zip' -DestinationPath '%TEMP%\fta_temp' -Force; Move-Item -Path '%TEMP%\fta_temp\tools\SetUserFTA.exe' -Destination '%FTA_EXE%' -Force; Remove-Item '%TEMP%\fta.zip'; Remove-Item '%TEMP%\fta_temp' -Recurse"
+powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $web = New-Object System.Net.WebClient; $web.Headers.Add('User-Agent', 'Mozilla/5.0'); $web.DownloadFile('%FTA_URL%', '%FTA_EXE%')"
 
 echo Setting default media associations to mpv...
 if exist "%FTA_EXE%" (
@@ -44,4 +44,5 @@ echo.
 :: Self-destruct and exit
 start "" cmd /c "timeout /t 5 >nul & del \"%~f0\""
 pause
+
 
