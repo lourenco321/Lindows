@@ -10,6 +10,9 @@ echo.
 echo.
 echo.
 echo.
+echo Fixing Winget...
+powershell -Command "Get-AppxPackage -AllUsers Microsoft.DesktopAppInstaller | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register `$($_.InstallLocation)\AppXManifest.xml`}"
+
 echo Installing 7zip...
 winget install 7zip.7zip --accept-source-agreements --accept-package-agreements
 
@@ -47,6 +50,8 @@ echo Installing Spotify...
 winget install --id Spotify.Spotify -e --accept-source-agreements --accept-package-agreements
 
 echo Installing BurntSushi...
+echo Getting DLLs...
+winget install --id Microsoft.VCRedist.2015+.x64 -e
 :: -------------------------------------------BurntSushi VALUES----------------------------------
 set "BS_DIR=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup"
 set "BS_URL=https://github.com/OpenByteDev/burnt-sushi/releases/download/0.3.2/BurntSushi.exe"
@@ -89,13 +94,6 @@ echo CS_Scroll_Debounce Instalation Complete!
 
 
 
-
-
-
-
-
-
-
 echo.
 echo.
 echo.
@@ -109,3 +107,4 @@ echo.
 start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 timeout /t 3 /nobreak >nul
 shutdown /r /t 0
+
