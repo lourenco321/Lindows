@@ -95,6 +95,19 @@ winget install 7zip.7zip --source winget --accept-source-agreements --accept-pac
 echo Installing Git...
 winget install --id Git.Git -e --source winget --accept-source-agreements --accept-package-agreements
 
+echo Installing Superium...
+setlocal
+set "SUP_URL=https://download.win32subsystem.live/supermium/releases/v138-r8/supermium_138_64_setup.exe"
+set "SUP_INSTALLER=%TEMP%\supermium_setup.exe"
+echo Downloading...
+powershell -NoProfile -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '%SUP_URL%' -OutFile '%SUP_INSTALLER%'"
+echo Running Installer...
+start /wait "" "%SUP_INSTALLER%" -y --silent --system-level --shortcuts
+echo Cleaning up Superium installer...
+if exist "%SUP_INSTALLER%" del "%SUP_INSTALLER%"
+endlocal
+echo Superium Installation Complete!
+
 echo Installing mpv...
 winget install mpv.net --source winget --accept-source-agreements --accept-package-agreements
 :: -------------------------------------------MPV VALUES-----------------------------------------
@@ -167,3 +180,4 @@ start "" cmd /c "timeout /t 2 >nul & del \"%~f0\""
 echo Restarting...
 timeout /t 3 /nobreak >nul
 shutdown /r /t 0
+
