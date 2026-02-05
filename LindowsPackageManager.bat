@@ -26,8 +26,9 @@ echo =========================================
 echo.
 
 :: Self-destruct and exit
-start "" cmd /c "timeout /t 5 >nul & del \"%~f0\""
+start "" cmd /c "timeout /t 2 >nul & del "%~f0""
 pause
+
 
 
 
